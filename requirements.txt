@@ -15,7 +15,6 @@ google-api-core==2.29.0
 google-auth==2.48.0
 google-generativeai==0.3.2
 googleapis-common-protos==1.72.0
-grpcio==1.76.0
 idna==3.11
 importlib-metadata==6.11.0
 Jinja2==3.1.6
@@ -30,7 +29,6 @@ packaging==23.2
 pandas==2.3.3
 pillow==10.4.0
 proto-plus==1.27.0
-protobuf==4.25.8
 pyarrow==23.0.0
 pyasn1==0.6.2
 pyasn1_modules==0.4.2
