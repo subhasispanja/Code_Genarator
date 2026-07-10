@@ -1,0 +1,103 @@
+PROJECT: Constraint-Driven Code Generator
+=========================================
+
+ENVIRONMENT
+-----------
+Activate conda environment:
+conda activate C_Aenv
+
+Check Python version:
+python --version
+(Expected: Python 3.10.x)
+
+Run app:
+streamlit run app.py
+
+
+DATABASE (SQLite) – MEMORY HANDLING
+----------------------------------
+
+Database file:
+code_generations.db
+
+⚠️ DO NOT open or edit the .db file in a text editor
+(It is a binary file – shows NUL, SQLite format 3, etc.)
+
+✅ BEST way to clear memory (recommended during development):
+1. Stop Streamlit (Ctrl + C)
+2. Delete the file:
+   code_generations.db
+3. Restart app:
+   streamlit run app.py
+
+The database will be recreated automatically by init_db().
+
+✅ Alternative: Clear table but keep DB file:
+python -c "import sqlite3; conn=sqlite3.connect('code_generations.db'); conn.execute('DELETE FROM generations'); conn.commit(); conn.close()"
+
+
+IMPORTANT FILES & RESPONSIBILITIES
+---------------------------------
+
+app.py
+- Streamlit UI
+- User inputs
+- Calls engine + memory
+- No business logic
+
+engine/validation.py
+- Validates inputs
+- Checks required fields
+- No Streamlit imports
+
+engine/prompt.py
+- Extract constraints from prompt
+- Decide output requirement
+- Build strict final prompt
+
+engine/llm.py
+- ONLY talks to LLM (Gemini)
+- Uses google-genai SDK
+- Model used: models/gemini-flash-latest
+
+memory.py
+- SQLite database logic
+- init_db()
+- store_generation()
+- get_session_history()
+
+.env
+- Stores API key
+- NEVER commit to GitHub
+Example:
+GOOGLE_API_KEY=your_api_key_here
+
+
+LLM SETUP (IMPORTANT)
+--------------------
+
+SDK used:
+google-genai
+
+Install:
+pip install --upgrade google-genai
+
+Model confirmed available for this account:
+models/gemini-flash-latest
+(models/gemini-pro-latest also works)
+
+Quick LLM test:
+python -c "from engine.llm import generate_code; print(generate_code('Write Python code to print Hello World'))"
+
+
+COMMON RULES (REMEMBER THESE)
+----------------------------
+
+✔ Always activate env before running
+✔ Never edit SQLite .db manually
+✔ If DB looks corrupted → delete it
+✔ If models fail → check available models
+✔ Engine code has NO Streamlit imports
+✔ UI code has NO LLM logic
+
+END
